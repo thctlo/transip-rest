@@ -1,0 +1,33 @@
+Source: transip-rest
+Section: python
+Priority: optional
+Maintainer: Personal Builder <personal@builder.invalid>
+Build-Depends:
+ debhelper-compat (= 13),
+ dh-python,
+ dh-sequence-python3,
+ pybuild-plugin-pyproject,
+ python3-all,
+ python3-cryptography,
+ python3-pytest <!nocheck>,
+ python3-requests,
+ python3-requests-mock <!nocheck>,
+ python3-setuptools,
+Standards-Version: 4.7.2
+Rules-Requires-Root: no
+
+Package: python3-transip-rest
+Architecture: all
+Depends:
+ ${misc:Depends},
+ ${python3:Depends},
+ python3-cryptography,
+ python3-requests,
+Description: Minimal REST client and CLI for the TransIP API v6
+ Implements only authentication (RSA-signed token request) and generic
+ DNS entry management (list/create/delete, any record type TransIP
+ supports) - not a full wrapper of TransIP's API.
+ .
+ Ships the transip-dns command-line tool for ad-hoc DNS management
+ (e.g. CAA, DKIM, TXT records), and is used by python3-certbot-dns-transip
+ to implement the certbot dns-transip authenticator plugin.

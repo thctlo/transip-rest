@@ -1,0 +1,23 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: transip-rest
+Source: internal - developed by Personal Builder for personal use, no public upstream repository
+
+Files: *
+Copyright: 2026 Personal Builder <personal@builder.invalid>
+License: Apache-2.0
+Comment: The RSA PKCS#1v1.5+SHA512 signing mechanism and the /v6/auth
+ and /domains/{domain}/dns API shapes used in transip_rest/client.py
+ were learned from TransIP's own public API documentation
+ (https://api.transip.nl/rest/docs.html) and cross-checked against two
+ independently licensed open source projects for correctness (not
+ copied from either): roaldnefs/python-transip (LGPL-3.0) and
+ Jerrythafast/transip-dyndns (GPL-3.0). No code from either project is
+ included in this package.
+
+Files: debian/*
+Copyright: 2026 Personal Builder <personal@builder.invalid>
+License: Apache-2.0
+
+License: Apache-2.0
+ On Debian systems, the complete text of the Apache License, Version
+ 2.0 can be found in the file /usr/share/common-licenses/Apache-2.0.

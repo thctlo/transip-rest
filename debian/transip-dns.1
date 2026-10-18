@@ -1,0 +1,49 @@
+.TH TRANSIP-DNS 1 "October 2026" "transip-rest" "User Commands"
+.SH NAME
+transip-dns \- manage DNS records at TransIP from the command line
+.SH SYNOPSIS
+.B transip-dns
+.RB [ --global-key ]
+.BI --username\~ USER
+.BI --key-file\~ KEYFILE
+.I command
+.RI [ args ...]
+.SH DESCRIPTION
+.B transip-dns
+authenticates to the TransIP API v6 using an RSA key pair and manages
+DNS records (A, AAAA, CNAME, MX, NS, TXT, SRV, SSHFP, TLSA, CAA,
+NAPTR) for domains in that TransIP account.
+.SH COMMANDS
+.TP
+.BI list\~ DOMAIN
+List all DNS entries for
+.IR DOMAIN .
+.TP
+.BI add\~ DOMAIN\~NAME\~TYPE\~CONTENT\~ "[\-\-ttl SECONDS]"
+Add a DNS entry. Default TTL is 86400 seconds.
+.TP
+.BI delete\~ DOMAIN\~NAME\~TYPE\~CONTENT\~ "[\-\-ttl SECONDS]"
+Delete a DNS entry. The
+.I name
+,
+.IR type ,
+.I content
+and
+.I ttl
+must all match the live record exactly, or TransIP will not find a
+match to delete.
+.SH OPTIONS
+.TP
+.BI --username\~ USER
+TransIP account login.
+.TP
+.BI --key-file\~ KEYFILE
+Path to the RSA private key (PEM) registered for this account.
+.TP
+.B --global-key
+Request a token that works from any IP, instead of one limited to
+whitelisted IPs.
+.SH SEE ALSO
+.UR https://api.transip.nl/rest/docs.html
+TransIP REST API documentation
+.UE

@@ -1,0 +1,2 @@
+Tests: unittest
+Depends: python3-transip-rest, python3-pytest, python3-requests-mock

@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "transip-rest"
+version = "0.2"
+description = "Minimal REST client and CLI for the TransIP API v6"
+readme = "README.md"
+license = {text = "Apache-2.0"}
+authors = [{name = "Personal Builder", email = "personal@builder.invalid"}]
+requires-python = ">=3.11"
+dependencies = [
+    "requests",
+    "cryptography",
+]
+
+[project.scripts]
+transip-dns = "transip_rest.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["transip_rest*"]
+
+[tool.pytest.ini_options]
+# Disable the cache plugin: without this, running pytest during the
+# package build leaves a .pytest_cache/ directory behind that pybuild's
+# install step picks up and ships inside the .deb (lintian:
+# package-installs-python-pycache-dir).
+addopts = "-p no:cacheprovider"

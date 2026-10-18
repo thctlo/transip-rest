@@ -1,0 +1,43 @@
+transip-rest (0.2) trixie; urgency=medium
+
+  * No functional change. Maintainer contact changed to
+    personal@builder.invalid, and personal/development-activity
+    wording removed from this changelog's older entries, ahead of
+    publishing this package's source publicly.
+
+ -- Personal Builder <personal@builder.invalid>  Mon, 19 Oct 2026 01:10:00 +0200
+
+transip-rest (0.1.2) trixie; urgency=medium
+
+  * client.py: fix the TransIP API access token lifecycle. Every call
+    used to request a new token under the same fixed label, which
+    TransIP rejects with "the label ... is already used in another
+    active access token" once the previous (still unexpired) token
+    under that label is still active - observed during a certbot
+    --dry-run. Each token request now gets a unique label
+    suffix under the configured prefix (same pattern TransIP's own
+    Go SDK, transip/gotransip, uses), expiry is read from the
+    token's own JWT "exp" claim instead of guessed from the
+    expiration_time string, and a new optional on-disk cache
+    (token_cache_path, see new tokencache.py) lets a still-valid
+    token survive across separate process invocations. A 401 on a
+    resource call now triggers one automatic retry with a fresh
+    token instead of a confusing error.
+
+ -- Personal Builder <personal@builder.invalid>  Sun, 18 Oct 2026 23:30:00 +0200
+
+transip-rest (0.1.1) trixie; urgency=medium
+
+  * debian/python3-transip-rest.docs: explicitly include README.md -
+    debhelper's automatic doc-file detection did not pick it up on its
+    own, so it was missing from /usr/share/doc/python3-transip-rest/.
+
+ -- Personal Builder <personal@builder.invalid>  Sat, 17 Oct 2026 23:50:00 +0200
+
+transip-rest (0.1.0) trixie; urgency=medium
+
+  * Initial release. Own, original implementation (not a repackaging of
+    any upstream project) - see debian/copyright for provenance of the
+    authentication scheme and DNS entry API shapes.
+
+ -- Personal Builder <personal@builder.invalid>  Sat, 17 Oct 2026 23:00:00 +0200
