@@ -4,8 +4,7 @@ transip-dns \- manage DNS records at TransIP from the command line
 .SH SYNOPSIS
 .B transip-dns
 .RB [ --global-key ]
-.BI --username\~ USER
-.BI --key-file\~ KEYFILE
+.RI "{ " \-\-username\~ USER\~ \-\-key\-file\~ KEYFILE " | " \-\-credentials\-ini\~ FILE " }"
 .I command
 .RI [ args ...]
 .SH DESCRIPTION
@@ -22,6 +21,22 @@ List all DNS entries for
 .BI add\~ DOMAIN\~NAME\~TYPE\~CONTENT\~ "[\-\-ttl SECONDS]"
 Add a DNS entry. Default TTL is 86400 seconds.
 .TP
+.BI update\~ DOMAIN\~NAME\~TYPE\~CONTENT\~ "[\-\-ttl SECONDS]"
+Change an existing entry's content in place via TransIP's PATCH
+endpoint, instead of a separate delete then add. The
+.IR name ,
+.I type
+and
+.I ttl
+must match the live record exactly (TransIP identifies which entry to
+update by these three, not by its current content) - only
+.I content
+changes. Use
+.B delete
+then
+.B add
+instead to change a record's ttl or type.
+.TP
 .BI delete\~ DOMAIN\~NAME\~TYPE\~CONTENT\~ "[\-\-ttl SECONDS]"
 Delete a DNS entry. The
 .I name
@@ -35,10 +50,31 @@ match to delete.
 .SH OPTIONS
 .TP
 .BI --username\~ USER
-TransIP account login.
+TransIP account login. Must be combined with
+.BR --key-file ,
+not with
+.BR --credentials-ini .
 .TP
 .BI --key-file\~ KEYFILE
-Path to the RSA private key (PEM) registered for this account.
+Path to the RSA private key (PEM) registered for this account. Must
+be combined with
+.BR --username ,
+not with
+.BR --credentials-ini .
+.TP
+.BI --credentials-ini\~ FILE
+Path to a credentials file with
+.B dns_transip_username
+and
+.B dns_transip_key_file
+keys - the same file format and key names the
+.B certbot-dns-transip
+plugin's own credentials file uses, so one file can serve both tools.
+An alternative to
+.B --username
+/
+.BR --key-file ;
+combining this with either of those is an error.
 .TP
 .B --global-key
 Request a token that works from any IP, instead of one limited to

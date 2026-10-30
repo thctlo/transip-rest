@@ -251,3 +251,22 @@ class TransipClient:
     ) -> None:
         entry = {"name": name, "expire": expire, "type": record_type, "content": content}
         self._request("DELETE", f"/domains/{domain}/dns", {"dnsEntry": entry})
+
+    def update_dns_entry(
+        self, domain: str, name: str, record_type: str, content: str, expire: int = 86400
+    ) -> None:
+        """Change an existing entry's content in place via TransIP's PATCH endpoint.
+
+        TransIP identifies the entry to update by `name`, `expire` and
+        `type` (verbatim from https://api.transip.nl/rest/docs.html,
+        "Update single DNS entry": "identified by the name, expire and
+        type attributes") - `expire` here must equal the TTL the live
+        record was created/last set with, or the API responds 406 "Could
+        not find match for DNS entry ...". Only `content` is the new
+        value being set; the docs do not say whether `expire`/`type`
+        themselves can be changed via this call, so this method does not
+        attempt that - use delete+create instead to change a record's TTL
+        or type. A successful call returns HTTP 204 with no body.
+        """
+        entry = {"name": name, "expire": expire, "type": record_type, "content": content}
+        self._request("PATCH", f"/domains/{domain}/dns", {"dnsEntry": entry})

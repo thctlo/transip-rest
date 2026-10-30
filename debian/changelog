@@ -1,3 +1,25 @@
+transip-rest (0.3) trixie; urgency=medium
+
+  * Add a PATCH-based `update_dns_entry()` to the client and a matching
+    `transip-dns update` CLI subcommand, so changing an existing record
+    (e.g. an MX target) no longer needs a separate delete-then-add.
+    TransIP's PATCH /domains/{domain}/dns identifies the entry to change
+    by name+expire+type (confirmed verbatim from
+    https://api.transip.nl/rest/docs.html, "Update single DNS entry") -
+    only `content` is the new value; this does not attempt to change a
+    record's ttl or type itself, which the API docs do not document a
+    way to do via PATCH.
+  * Add `--credentials-ini FILE` to the CLI as an alternative to passing
+    `--username`/`--key-file` on every call - reads the same
+    `dns_transip_username`/`dns_transip_key_file` keys the
+    certbot-dns-transip plugin's own credentials file already uses, so
+    one credentials file serves both tools. Mutually exclusive with
+    `--username`/`--key-file`; exactly one form is required.
+  * 9 new tests (1 for update_dns_entry, 8 for the new CLI credential
+    resolution and update-subcommand parsing) - 34 total, all passing.
+
+ -- Personal Builder <personal@builder.invalid>  Fri, 30 Oct 2026 23:21:00 +0100
+
 transip-rest (0.2) trixie; urgency=medium
 
   * No functional change. Maintainer contact changed to

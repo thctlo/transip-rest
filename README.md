@@ -13,7 +13,24 @@ TXT, SRV, SSHFP, TLSA, CAA, NAPTR).
 ```
 transip-dns --username USER --key-file KEYFILE list example.com
 transip-dns --username USER --key-file KEYFILE add example.com www A 127.0.0.1
-transip-dns --username USER --key-file KEYFILE delete example.com www A 127.0.0.1
+transip-dns --username USER --key-file KEYFILE update example.com www A 127.0.0.2
+transip-dns --username USER --key-file KEYFILE delete example.com www A 127.0.0.2
+```
+
+`update` changes an existing entry's content in place, via TransIP's
+PATCH endpoint, instead of a separate delete-then-add - but TransIP
+identifies which entry to update by `name`+`type`+`ttl` (not content),
+so those three must match the live record exactly; only `content`
+changes.
+
+Instead of passing `--username`/`--key-file` on every call, point at a
+credentials file instead - the same file format and key names
+(`dns_transip_username`, `dns_transip_key_file`) the
+`certbot-dns-transip` plugin's own credentials file already uses, so
+one file can serve both tools:
+
+```
+transip-dns --credentials-ini /etc/letsencrypt/transip/accounts.d/transip.ini list example.com
 ```
 
 ## Provenance

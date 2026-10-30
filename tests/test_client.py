@@ -122,6 +122,20 @@ def test_delete_dns_entry_sends_delete_with_body(private_key_pem, requests_mock)
     assert body["dnsEntry"]["content"] == "abc123"
 
 
+def test_update_dns_entry_sends_patch_with_body(private_key_pem, requests_mock):
+    requests_mock.post("https://api.transip.nl/v6/auth", json={"token": "t"}, status_code=201)
+    requests_mock.patch("https://api.transip.nl/v6/domains/example.com/dns", status_code=204)
+    client = TransipClient(username="u", private_key_pem=private_key_pem)
+    client.update_dns_entry("example.com", "_acme-challenge", "TXT", "new-content", expire=60)
+
+    sent = requests_mock.request_history[-1]
+    assert sent.method == "PATCH"
+    body = json.loads(sent.body)
+    assert body == {
+        "dnsEntry": {"name": "_acme-challenge", "expire": 60, "type": "TXT", "content": "new-content"}
+    }
+
+
 def test_each_token_request_gets_a_unique_label(private_key_pem, requests_mock):
     """Regression test for the root cause of the original bug: a fixed,
     reused label is what made a second auth request collide with the

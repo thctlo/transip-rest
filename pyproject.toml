@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "transip-rest"
-version = "0.2"
+version = "0.3"
 description = "Minimal REST client and CLI for the TransIP API v6"
 readme = "README.md"
 license = {text = "Apache-2.0"}
