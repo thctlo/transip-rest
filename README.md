@@ -8,6 +8,11 @@ use by `certbot-dns-transip` and for ad-hoc DNS management (CAA, DKIM,
 and any other record type TransIP supports: A, AAAA, CNAME, MX, NS,
 TXT, SRV, SSHFP, TLSA, CAA, NAPTR).
 
+## Platform
+
+Built and packaged for Debian 13 (trixie); not tested on other
+distributions or Debian releases.
+
 ## CLI usage
 
 ```
